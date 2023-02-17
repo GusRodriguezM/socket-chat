@@ -42,9 +42,14 @@ socket.emit('send-message', {
     console.log('server response: ', resp);
 });
 
-// Escuchar información
-socket.on('send-message', (mensaje) => {
+// Listen the message when an user left the chat
+socket.on('create-message', (mensaje) => {
 
     console.log('Server:', mensaje);
 
 });
+
+// Listen changes when an user enters or leaves a chat
+socket.on( 'users-list', ( users ) => {
+    console.log( users );
+})
