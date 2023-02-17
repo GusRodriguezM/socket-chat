@@ -35,12 +35,12 @@ socket.on('disconnect', () => {
 
 
 // Enviar información
-socket.emit('send-message', {
-    user: 'Fernando',
-    message: 'Hello world!'
-}, function(resp) {
-    console.log('server response: ', resp);
-});
+// socket.emit('send-message', {
+//     user: 'Fernando',
+//     message: 'Hello world!'
+// }, function(resp) {
+//     console.log('server response: ', resp);
+// });
 
 // Listen the message when an user left the chat
 socket.on('create-message', (mensaje) => {

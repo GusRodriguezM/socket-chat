@@ -1,4 +1,5 @@
 import Users from "../models/users.js";
+import { createMessage } from "../utils/utils.js";
 
 const users = new Users();
 
@@ -28,13 +29,21 @@ export const socketController = ( socket ) => {
 
     });
 
+    socket.on( 'create-message', ( data ) => {
+
+        let user = users.getUserById( socket.id );
+
+        let message = createMessage( user.name, data.message );
+        socket.broadcast.emit( 'create-message', message );
+    });
+
     //Listen when an user disconnects
     socket.on( 'disconnect', () => {
         //Delete the user from the list when disconnects
         let deletedUser = users.deleteUser( socket.id );
 
         //Send a message to all the users to notify another user left the chat
-        socket.broadcast.emit( 'create-message', { user: 'Admin', message: `${deletedUser.name} left the chat`} );
+        socket.broadcast.emit( 'create-message', createMessage( 'Admin', `${deletedUser.name} left the chat` ) );
 
         //Send the list of connected users when an user disconnects
         socket.broadcast.emit( 'users-list', users.getUsers() );
