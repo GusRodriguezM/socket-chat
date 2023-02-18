@@ -8,8 +8,8 @@ class Users {
     }
 
     //Add user to the chat
-    addUser( id, name ) {
-        let user = { id, name };
+    addUser( id, name, chatRoom ) {
+        let user = { id, name, chatRoom };
         this.users.push( user );
         return this.users;
     }

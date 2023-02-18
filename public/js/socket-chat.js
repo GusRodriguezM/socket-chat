@@ -6,14 +6,15 @@ const socket = io();
 const params = new URLSearchParams( window.location.search );
 
 //If there is no name in the url then redirect to the index.html
-if( !params.has('name') ){
+if( !params.has('name') || !params.has('chat-room') ){
     window.location = 'index.html';
-    throw new Error( 'The user name is required' );
+    throw new Error( 'The user name and the chat room are required' );
 }
 
-//Get the name if it exists in the url
+//Get the name if it exists in the url and the chat room to join
 const user = {
-    name: params.get( 'name' )
+    name: params.get( 'name' ),
+    chatRoom: params.get( 'chat-room' )
 };
 
 //Listen when a users connects to the server

@@ -11,15 +11,18 @@ export const socketController = ( socket ) => {
     socket.on( 'enter-chat', ( user, callback ) => {
 
         //If there is no name as a payload throw an error
-        if( !user.name ){
+        if( !user.name || !user.chatRoom ){
             return callback({
                 error: true,
                 message: 'The name is required'
             });
         }
+
+        //Joins to an specified room
+        socket.join( user.chatRoom );
         
         //If the name exists then add it to the list of connected users
-        let usersList = users.addUser( socket.id, user.name );
+        let usersList = users.addUser( socket.id, user.name, user.chatRoom );
 
         //This event will be fired when an user connects or disconnects from the chat
         socket.broadcast.emit( 'users-list', users.getUsers() );
