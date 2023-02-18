@@ -53,3 +53,9 @@ socket.on('create-message', (mensaje) => {
 socket.on( 'users-list', ( users ) => {
     console.log( users );
 })
+
+//Private messages
+//Action when a client send a private message
+socket.on( 'private-message', ( message ) => {
+    console.log('private message', message);
+});

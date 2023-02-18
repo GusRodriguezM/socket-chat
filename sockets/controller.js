@@ -29,11 +29,16 @@ export const socketController = ( socket ) => {
 
     });
 
+    //Send a message to all the users
     socket.on( 'create-message', ( data ) => {
 
+        //Get the user by the id
         let user = users.getUserById( socket.id );
 
+        //We create a message with the data and the user's info
         let message = createMessage( user.name, data.message );
+
+        //Then we send to everyone that is connected
         socket.broadcast.emit( 'create-message', message );
     });
 
@@ -47,6 +52,14 @@ export const socketController = ( socket ) => {
 
         //Send the list of connected users when an user disconnects
         socket.broadcast.emit( 'users-list', users.getUsers() );
+    });
+
+    //Private message from the client
+    socket.on( 'private-message', ( data ) => {
+        //Get the user by the id
+        let user = users.getUserById( socket.id );
+        //with to we can specify the user we want to send the message
+        socket.broadcast.to( data.to ).emit( 'private-message', createMessage( user.name, data.message ) );
     });
     
 }
