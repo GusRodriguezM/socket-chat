@@ -27,7 +27,8 @@ class Users {
 
     //Get all the users of a specific chat room
     getUsersByChatRoom( chatRoom ) {
-
+        let usersInChatRoom = this.users.filter( user => user.chatRoom === chatRoom );
+        return usersInChatRoom;
     }
 
     //Delete an user from a chat room

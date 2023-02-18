@@ -22,13 +22,13 @@ export const socketController = ( socket ) => {
         socket.join( user.chatRoom );
         
         //If the name exists then add it to the list of connected users
-        let usersList = users.addUser( socket.id, user.name, user.chatRoom );
+        users.addUser( socket.id, user.name, user.chatRoom );
 
         //This event will be fired when an user connects or disconnects from the chat
-        socket.broadcast.emit( 'users-list', users.getUsers() );
+        socket.broadcast.to( user.chatRoom ).emit( 'users-list', users.getUsersByChatRoom( user.chatRoom ) );
 
-        //Send back the list of users
-        callback( usersList );
+        //Send back the list of users connected to a specific room
+        callback( users.getUsersByChatRoom( user.chatRoom ) );
 
     });
 
@@ -42,7 +42,7 @@ export const socketController = ( socket ) => {
         let message = createMessage( user.name, data.message );
 
         //Then we send to everyone that is connected
-        socket.broadcast.emit( 'create-message', message );
+        socket.broadcast.to( user.chatRoom ).emit( 'create-message', message );
     });
 
     //Listen when an user disconnects
@@ -51,10 +51,10 @@ export const socketController = ( socket ) => {
         let deletedUser = users.deleteUser( socket.id );
 
         //Send a message to all the users to notify another user left the chat
-        socket.broadcast.emit( 'create-message', createMessage( 'Admin', `${deletedUser.name} left the chat` ) );
+        socket.broadcast.to( deletedUser.chatRoom ).emit( 'create-message', createMessage( 'Admin', `${deletedUser.name} left the chat` ) );
 
         //Send the list of connected users when an user disconnects
-        socket.broadcast.emit( 'users-list', users.getUsers() );
+        socket.broadcast.to( deletedUser.chatRoom ).emit( 'users-list', users.getUsersByChatRoom( deletedUser.chatRoom ) );
     });
 
     //Private message from the client
