@@ -23,7 +23,7 @@ socket.on('connect', () => {
 
     //Send the user and receive the response from the server
     socket.emit( 'enter-chat', user, ( res ) => {
-        console.log( 'Connected users', res );
+        renderUsers( res );
     });
 });
 
@@ -52,7 +52,7 @@ socket.on('create-message', (mensaje) => {
 
 // Listen changes when an user enters or leaves a chat
 socket.on( 'users-list', ( users ) => {
-    console.log( users );
+    renderUsers( users );
 })
 
 //Private messages
