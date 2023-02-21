@@ -33,7 +33,7 @@ export const socketController = ( socket ) => {
     });
 
     //Send a message to all the users
-    socket.on( 'create-message', ( data ) => {
+    socket.on( 'create-message', ( data, callback ) => {
 
         //Get the user by the id
         let user = users.getUserById( socket.id );
@@ -43,6 +43,9 @@ export const socketController = ( socket ) => {
 
         //Then we send to everyone that is connected
         socket.broadcast.to( user.chatRoom ).emit( 'create-message', message );
+
+        //Send the message through the callback
+        callback( message );
     });
 
     //Listen when an user disconnects

@@ -44,10 +44,8 @@ socket.on('disconnect', () => {
 // });
 
 // Listen the message when an user left the chat
-socket.on('create-message', (mensaje) => {
-
-    console.log('Server:', mensaje);
-
+socket.on('create-message', ( message ) => {
+    renderMessages( message );
 });
 
 // Listen changes when an user enters or leaves a chat
