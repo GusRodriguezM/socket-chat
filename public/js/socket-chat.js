@@ -29,9 +29,7 @@ socket.on('connect', () => {
 
 // escuchar
 socket.on('disconnect', () => {
-
-    console.log('Perdimos conexión con el servidor');
-
+    console.log('Connection lost with the server...');
 });
 
 
