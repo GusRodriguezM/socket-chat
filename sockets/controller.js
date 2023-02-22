@@ -27,6 +27,9 @@ export const socketController = ( socket ) => {
         //This event will be fired when an user connects or disconnects from the chat
         socket.broadcast.to( user.chatRoom ).emit( 'users-list', users.getUsersByChatRoom( user.chatRoom ) );
 
+        //Event to tell the user someone joined the chat
+        socket.broadcast.to( user.chatRoom ).emit( 'create-message', createMessage( 'Admin', `${user.name} joined the chat` ) );
+
         //Send back the list of users connected to a specific room
         callback( users.getUsersByChatRoom( user.chatRoom ) );
 

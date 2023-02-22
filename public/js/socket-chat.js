@@ -45,12 +45,13 @@ socket.on('disconnect', () => {
 
 // Listen the message when an user left the chat
 socket.on('create-message', ( message ) => {
-    renderMessages( message );
+    renderMessages( message, false );
 });
 
 // Listen changes when an user enters or leaves a chat
 socket.on( 'users-list', ( users ) => {
     renderUsers( users );
+    // scrollBottom();
 })
 
 //Private messages
